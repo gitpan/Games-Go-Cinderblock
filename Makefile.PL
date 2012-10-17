@@ -21,9 +21,10 @@ my %WriteMakefileArgs = (
   "NAME" => "Games::Go::Cinderblock",
   "PREREQ_PM" => {
     "List::MoreUtils" => 0,
-    "Moose" => 0
+    "Moose" => 0,
+    "Scalar::Util::Numeric" => 0
   },
-  "VERSION" => "0.05",
+  "VERSION" => "0.06",
   "test" => {
     "TESTS" => "t/*.t"
   }

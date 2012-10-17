@@ -15,4 +15,5 @@ name: Games-Go-Cinderblock
 requires:
   List::MoreUtils: 0
   Moose: 0
-version: 0.05
+  Scalar::Util::Numeric: 0
+version: 0.06
