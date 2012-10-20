@@ -3,6 +3,7 @@ use 5.14.0;
 use Moose;
 
 use Games::Go::Cinderblock::NodeSet;
+use Games::Go::Cinderblock::Delta;
 use Games::Go::Cinderblock::State;
 use Games::Go::Cinderblock::Scorable;
 use Games::Go::Cinderblock::MoveAttempt;
@@ -439,31 +440,52 @@ sub determine_next_phase{
 }
 
 
-#compare earlier board to later board.
+#compare earlier state to later state.
+# package the things which actually change.
+# among board, turn, & captures.
+
 sub delta{
+   my ($self,$state1,$state2) = @_;
+   my %deltargs;
+
+   my $board_changeset = $self->_compare_boards( $state1->board, $state2->board );
+   $deltargs{board} = $board_changeset if %$board_changeset;
+   if($state1->turn ne $state2->turn){
+      $deltargs{turn} = {before=>$state1->turn,after=>$state2->turn};
+   }
+   if($state1->captures('w') != $state2->captures('w')){
+      $deltargs{captures}{w} = {before=>$state1->captures('w'),after=>$state2->captures('w')};
+   }
+   if($state1->captures('b') != $state2->captures('b')){
+      $deltargs{captures}{b} = {before=>$state1->captures('b'),after=>$state2->captures('b')};
+   }
+
+   my $delta = Games::Go::Cinderblock::Delta->new(
+      rulemap => $self,
+      %deltargs
+   );
+   return $delta;
+}
+
+
+#compare earlier board to later board.
+sub _compare_boards{
    my ($self, $board1, $board2) = @_;
    
-   my @remove;
-   my @add;
+   my %changeset;
    for my $node ($self->all_nodes){
       my $fore = $self->stone_at_node($board1, $node); #0,w,b,etc
       my $afte = $self->stone_at_node($board2, $node);
-      if ($fore ne $afte){
-         my $n = $self->node_to_string($node);
-         if (!$fore){
-            push @add, [$afte => $node];
-         }
-         elsif (!$afte){
-            push @remove, [$fore => $node];
-         }
-         else{
-            # die 'replacement? no thanks.';
-            push @remove, [$fore => $node];
-            push @add, [$afte => $node];
-         }
+      next if ($fore eq $afte);
+      if($fore){
+         # autovivify.
+         push @{$changeset{remove}{$fore}}, $node;
+      }
+      if($afte){
+         push @{$changeset{add}{$afte}}, $node;
       }
    }
-   return {remove => \@remove, add => \@add};
+   return \%changeset;
 }
 
 1;
