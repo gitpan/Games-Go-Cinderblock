@@ -16,4 +16,8 @@ requires:
   List::MoreUtils: 0
   Moose: 0
   Scalar::Util::Numeric: 0
-version: 0.12
+  Test::Exception: 0
+resources:
+  homepage: https://metacpan.org/release/Games-Go-Cinderblock
+  repository: https://github.com/zpmorgan/Games-Go-Cinderblock
+version: 0.13

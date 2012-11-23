@@ -22,9 +22,10 @@ my %WriteMakefileArgs = (
   "PREREQ_PM" => {
     "List::MoreUtils" => 0,
     "Moose" => 0,
-    "Scalar::Util::Numeric" => 0
+    "Scalar::Util::Numeric" => 0,
+    "Test::Exception" => 0
   },
-  "VERSION" => "0.12",
+  "VERSION" => "0.13",
   "test" => {
     "TESTS" => "t/*.t"
   }

@@ -1,5 +1,7 @@
+0.13   November 1, 2012
+   Test::Exception added to prereqs.    
+
 0.12   November 1, 2012
-    I don't like how the old version (0.10) stringified to 0.1
 
 0.11   October 28, 2012
     I don't like how the old version (0.10) stringified to 0.1

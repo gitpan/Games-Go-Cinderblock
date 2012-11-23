@@ -3,7 +3,7 @@ package Games::Go::Cinderblock;
 # ABSTRACT: Implementing a myriad of Go rulesets
 
 
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 1;
 
